@@ -4,11 +4,13 @@ import com.elitauto.vehicle.status.data.enums.Estimator;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
 @Data
 @ToString
+@Document(collection = "vehicles")
 public class VehicleItem {
     @Id
     private String id;
@@ -16,16 +18,16 @@ public class VehicleItem {
     private String vehicleName;
     private Estimator estimator;
     private LocalDate dropOff;
-    private boolean isDroppedOff;
+    private boolean DroppedOffConfirmed;
     private boolean rental;
     private LocalDate promisedDate;
-    private boolean isPromisedDate;
+    private boolean PromisedDateConfirmed;
     private LocalDate repairStartDate;
     private boolean hasRepairStarted;
     private LocalDate repairCompleteDate;
     private boolean hasRepairCompleted;
     private LocalDate vehicleOutDate;
-    private boolean isVehicleOut;
+    private boolean VehicleOutConfirmed;
     private LocalDate followUpDate;
     private boolean followUpCompleted;
     private int actualNoOfDays;
