@@ -1,43 +1,39 @@
 package com.elitauto.vehicle.status.controller;
 
+import com.elitauto.vehicle.status.data.MongoObj.VehicleItem;
 import com.elitauto.vehicle.status.data.request.DeleteVehicleRequest;
 import com.elitauto.vehicle.status.data.request.VehicleRequest;
-import com.elitauto.vehicle.status.data.response.DeleteResponse;
-import com.elitauto.vehicle.status.service.VehicleService;
+import com.elitauto.vehicle.status.service.impl.VehicleServiceImpl;
 import jakarta.validation.Valid;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(value = "/vehicles")
 public class VehicleController {
-    public VehicleService vehicleService;
+    private final VehicleServiceImpl vehicleService;
 
-    private VehicleController(VehicleService vehicleService){
+    public VehicleController(VehicleServiceImpl vehicleService){
         this.vehicleService = vehicleService;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<VehicleRequest> addVehicle(@Valid @RequestBody VehicleRequest vehicleRequest){
-        VehicleRequest vehicleItem = vehicleService.addVehicle(vehicleRequest);
-        return ResponseEntity.ok().body(vehicleItem);
+    public VehicleItem addVehicle(@Valid @RequestBody VehicleRequest vehicleRequest){
+        return vehicleService.addVehicle(vehicleRequest);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<VehicleRequest>> getAllVehicles() {
-        List<VehicleRequest>  vehicleItems = vehicleService.getAll();
-        return ResponseEntity.ok().body(vehicleItems);
+    public List<VehicleItem> getAllVehicles() {
+        return vehicleService.getAll();
     }
 
 
     @DeleteMapping("/remove")
-    public ResponseEntity<VehicleRequest> removeVehicle(@Valid @RequestBody DeleteVehicleRequest deleteVehicleRequest) throws BadRequestException {
-        String id = deleteVehicleRequest.getId();
-        return ResponseEntity.ok().body(vehicleService.deleteVehicle(id));
+    public ResponseEntity<Void> removeVehicle(@Valid @RequestBody DeleteVehicleRequest deleteVehicleRequest) {
+        vehicleService.deleteVehicle(deleteVehicleRequest.getId());
+        return ResponseEntity.noContent().build();
     }
 
 

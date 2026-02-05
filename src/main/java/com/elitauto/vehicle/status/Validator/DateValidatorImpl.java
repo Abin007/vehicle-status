@@ -1,10 +1,6 @@
 package com.elitauto.vehicle.status.Validator;
 
 import org.apache.coyote.BadRequestException;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
