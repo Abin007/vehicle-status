@@ -1,7 +1,6 @@
 package com.elitauto.vehicle.status.controller;
 
 import com.elitauto.vehicle.status.data.MongoObj.VehicleItem;
-import com.elitauto.vehicle.status.data.request.DeleteVehicleRequest;
 import com.elitauto.vehicle.status.data.request.VehicleRequest;
 import com.elitauto.vehicle.status.service.impl.VehicleServiceImpl;
 import jakarta.validation.Valid;
@@ -29,10 +28,15 @@ public class VehicleController {
         return vehicleService.getAll();
     }
 
+    @GetMapping("/{id}")
+    public VehicleItem getById(@PathVariable String id) {
+        return vehicleService.getVehicle(id);
+    }
 
-    @DeleteMapping("/remove")
-    public ResponseEntity<Void> removeVehicle(@Valid @RequestBody DeleteVehicleRequest deleteVehicleRequest) {
-        vehicleService.deleteVehicle(deleteVehicleRequest.getId());
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removeVehicle(@PathVariable String id) {
+        vehicleService.deleteVehicle(id);
         return ResponseEntity.noContent().build();
     }
 

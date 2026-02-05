@@ -25,6 +25,17 @@ public class VehicleServiceImpl {
         return vehicleRepository.save(VehicleMapper.toEntity(vehicleRequest));
     }
 
+    public VehicleItem getVehicle(String id){
+        Optional<VehicleItem> vehicleItem = vehicleRepository.findById(id);
+        if (vehicleItem.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Id does not exist. Please provide a valid body"
+            );
+        }
+        return vehicleItem.get();
+    }
+
     public List<VehicleItem> getAll() {
         return new ArrayList<>(vehicleRepository.findAll());
     }
@@ -38,7 +49,6 @@ public class VehicleServiceImpl {
             );
         }
         vehicleRepository.deleteById(id);
-
     }
 
 }

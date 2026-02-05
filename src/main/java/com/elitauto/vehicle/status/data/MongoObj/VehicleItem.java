@@ -1,6 +1,7 @@
 package com.elitauto.vehicle.status.data.MongoObj;
 
 import com.elitauto.vehicle.status.data.enums.Estimator;
+import com.elitauto.vehicle.status.data.enums.VehicleStatus;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
@@ -32,4 +33,5 @@ public class VehicleItem {
     private boolean followUpCompleted;
     private int actualNoOfDays;
     private int remainingNoOfDays;
+    private VehicleStatus vehicleStatus;
 }

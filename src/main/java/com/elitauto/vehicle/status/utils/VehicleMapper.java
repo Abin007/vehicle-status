@@ -2,6 +2,7 @@ package com.elitauto.vehicle.status.utils;
 
 import com.elitauto.vehicle.status.data.MongoObj.VehicleItem;
 import com.elitauto.vehicle.status.data.enums.Estimator;
+import com.elitauto.vehicle.status.data.enums.VehicleStatus;
 import com.elitauto.vehicle.status.data.request.VehicleRequest;
 
 public final class VehicleMapper {
@@ -32,6 +33,7 @@ public final class VehicleMapper {
         item.setFollowUpCompleted(request.isFollowUpCompleted());
         item.setActualNoOfDays(request.getActualNoOfDays());
         item.setRemainingNoOfDays(request.getRemainingNoOfDays());
+        item.setVehicleStatus(VehicleStatus.NOT_STARTED);
         return item;
     }
 }
