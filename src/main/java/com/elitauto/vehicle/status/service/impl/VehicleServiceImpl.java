@@ -1,6 +1,7 @@
 package com.elitauto.vehicle.status.service.impl;
 
 import com.elitauto.vehicle.status.data.MongoObj.VehicleItem;
+import com.elitauto.vehicle.status.data.request.EditVehicleRequest;
 import com.elitauto.vehicle.status.data.request.VehicleRequest;
 import com.elitauto.vehicle.status.repository.VehicleRepository;
 import com.elitauto.vehicle.status.utils.VehicleMapper;
@@ -26,14 +27,8 @@ public class VehicleServiceImpl {
     }
 
     public VehicleItem getVehicle(String id){
-        Optional<VehicleItem> vehicleItem = vehicleRepository.findById(id);
-        if (vehicleItem.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Id does not exist. Please provide a valid body"
-            );
-        }
-        return vehicleItem.get();
+        return vehicleRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found"));
     }
 
     public List<VehicleItem> getAll() {
@@ -41,14 +36,16 @@ public class VehicleServiceImpl {
     }
 
     public void deleteVehicle(String id) {
-        Optional<VehicleItem> vehicleItem = vehicleRepository.findById(id);
-        if (vehicleItem.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Id does not exist. Please provide a valid body"
-            );
-        }
+        getVehicle(id);
         vehicleRepository.deleteById(id);
+    }
+
+    public VehicleItem editVehicle(String id, EditVehicleRequest vehicleRequest){
+        VehicleItem existing = getVehicle(id);
+        VehicleItem updatedVehicle = VehicleMapper.toEntity(vehicleRequest);
+        updatedVehicle.setId(existing.getId());
+        return vehicleRepository.save(updatedVehicle);
+
     }
 
 }
