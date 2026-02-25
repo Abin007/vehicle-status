@@ -9,9 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VehicleServiceImpl {
@@ -23,7 +24,11 @@ public class VehicleServiceImpl {
     }
 
     public VehicleItem addVehicle(VehicleRequest vehicleRequest) {
-        return vehicleRepository.save(VehicleMapper.toEntity(vehicleRequest));
+        VehicleItem vehicleItem = VehicleMapper.toEntity(vehicleRequest);
+        vehicleItem.setActualNoOfDays(
+                calculateActualNoOfDays(vehicleItem.getDropOff(), vehicleItem.getRepairCompleteDate())
+        );
+        return vehicleRepository.save(vehicleItem);
     }
 
     public VehicleItem getVehicle(String id){
@@ -44,8 +49,30 @@ public class VehicleServiceImpl {
         VehicleItem existing = getVehicle(id);
         VehicleItem updatedVehicle = VehicleMapper.toEntity(vehicleRequest);
         updatedVehicle.setId(existing.getId());
+        updatedVehicle.setActualNoOfDays(
+                calculateActualNoOfDays(updatedVehicle.getDropOff(), updatedVehicle.getRepairCompleteDate())
+        );
+        if (updatedVehicle.getVehicleStatus() == null) {
+            updatedVehicle.setVehicleStatus(existing.getVehicleStatus());
+        }
         return vehicleRepository.save(updatedVehicle);
 
+    }
+
+    private int calculateActualNoOfDays(LocalDate dropOffDate, LocalDate repairCompleteDate) {
+        if (dropOffDate == null || repairCompleteDate == null || repairCompleteDate.isBefore(dropOffDate)) {
+            return 0;
+        }
+        int businessDays = 0;
+        LocalDate currentDate = dropOffDate;
+        while (!currentDate.isAfter(repairCompleteDate)) {
+            DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+            if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
+                businessDays++;
+            }
+            currentDate = currentDate.plusDays(1);
+        }
+        return businessDays;
     }
 
 }

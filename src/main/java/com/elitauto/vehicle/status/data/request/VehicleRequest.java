@@ -55,7 +55,5 @@ public class VehicleRequest {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate followUpDate;
     private boolean followUpCompleted;
-    private int actualNoOfDays;
-    private int remainingNoOfDays;
 
 }

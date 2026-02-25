@@ -50,14 +50,12 @@ public class EditVehicleRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate vehicleOutDate;
-    private boolean VehicleOutConfirmed;
+    private boolean vehicleOutConfirmed;
     @NotNull(message = "Follow Up cannot be blank")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate followUpDate;
     private boolean followUpCompleted;
-    private int actualNoOfDays;
-    private int remainingNoOfDays;
     @Valid
     @ValidEnum(enumClass = VehicleStatus.class, message = "Must be one of the values in NOT_STARTED,IN_PROGRESS, COMPLETE" )
     private String vehicleStatus;

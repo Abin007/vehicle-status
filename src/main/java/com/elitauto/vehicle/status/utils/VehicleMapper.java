@@ -32,8 +32,6 @@ public final class VehicleMapper {
         item.setVehicleOutConfirmed(request.isVehicleOutConfirmed());
         item.setFollowUpDate(request.getFollowUpDate());
         item.setFollowUpCompleted(request.isFollowUpCompleted());
-        item.setActualNoOfDays(request.getActualNoOfDays());
-        item.setRemainingNoOfDays(request.getRemainingNoOfDays());
         item.setVehicleStatus(VehicleStatus.NOT_STARTED);
         return item;
     }
@@ -61,8 +59,6 @@ public final class VehicleMapper {
         item.setVehicleOutConfirmed(request.isVehicleOutConfirmed());
         item.setFollowUpDate(request.getFollowUpDate());
         item.setFollowUpCompleted(request.isFollowUpCompleted());
-        item.setActualNoOfDays(request.getActualNoOfDays());
-        item.setRemainingNoOfDays(request.getRemainingNoOfDays());
         if(request.getVehicleStatus()!=null){
             item.setVehicleStatus(VehicleStatus.valueOf(request.getVehicleStatus().toUpperCase()));
         }
