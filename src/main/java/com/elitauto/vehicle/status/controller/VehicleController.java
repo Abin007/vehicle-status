@@ -1,6 +1,7 @@
 package com.elitauto.vehicle.status.controller;
 
 import com.elitauto.vehicle.status.data.MongoObj.VehicleItem;
+import com.elitauto.vehicle.status.data.request.EditVehicleRequest;
 import com.elitauto.vehicle.status.data.request.VehicleRequest;
 import com.elitauto.vehicle.status.service.impl.VehicleServiceImpl;
 import jakarta.validation.Valid;
@@ -31,6 +32,11 @@ public class VehicleController {
     @GetMapping("/{id}")
     public VehicleItem getById(@PathVariable String id) {
         return vehicleService.getVehicle(id);
+    }
+
+    @PutMapping("/{id}")
+    public VehicleItem editVehicle(@PathVariable String id, @Valid @RequestBody EditVehicleRequest vehicleRequest){
+        return vehicleService.editVehicle(id, vehicleRequest);
     }
 
 

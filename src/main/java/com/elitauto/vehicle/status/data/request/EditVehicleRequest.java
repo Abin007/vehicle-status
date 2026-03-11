@@ -3,6 +3,7 @@ package com.elitauto.vehicle.status.data.request;
 import com.elitauto.vehicle.status.Validator.ValidEnum;
 import com.elitauto.vehicle.status.data.MongoObj.Customer;
 import com.elitauto.vehicle.status.data.enums.Estimator;
+import com.elitauto.vehicle.status.data.enums.VehicleStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -14,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Data
-public class VehicleRequest {
+public class EditVehicleRequest {
     @Valid
     private Customer customer;
     @NotBlank(message = "Vehicle Name cannot be blank")
@@ -49,11 +50,13 @@ public class VehicleRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate vehicleOutDate;
-    private boolean VehicleOutConfirmed;
+    private boolean vehicleOutConfirmed;
     @NotNull(message = "Follow Up cannot be blank")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate followUpDate;
     private boolean followUpCompleted;
-
+    @Valid
+    @ValidEnum(enumClass = VehicleStatus.class, message = "Must be one of the values in NOT_STARTED,IN_PROGRESS, COMPLETE" )
+    private String vehicleStatus;
 }
